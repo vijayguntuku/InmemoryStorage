@@ -5,18 +5,15 @@ import models.InMemoryStorageUserManager;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Userdetails  {
+public class Userdetails {
     public static void main(String[] args) {
         Scanner integerInput = new Scanner(System.in);
         Scanner stringInput = new Scanner(System.in);
-        User userInput = null;
 
-        userInput = new User(userInput.getId(), userInput.getName(),userInput.getEmail());
 
-        ArrayList<User> UserList = new ArrayList<>() ;
-      InMemoryStorageUserManager userManager = new InMemoryStorageUserManager();
+        InMemoryStorageUserManager userManager = new InMemoryStorageUserManager();
         int ch = 0;
-        do{
+        do {
             System.out.println("enter your choice");
             System.out.println("1.Adduser");
             System.out.println("2.delete user");
@@ -24,54 +21,54 @@ public class Userdetails  {
             System.out.println("4.Update users");
             System.out.println("5.Search user");
             System.out.println("6.exit");
+            ch = integerInput.nextInt();
 
-            if(ch == 1){
+            if (ch == 1) {
+                User user = new User();
                 System.out.println("enter user id ");
-                userInput.setId(integerInput.nextInt());
+                user.setId(integerInput.nextInt());
                 System.out.println("enter user name");
-                userInput.setName(stringInput.nextLine());
+                user.setName(stringInput.nextLine());
                 System.out.println("enter user email");
-                userInput.setEmail(stringInput.nextLine());
-
-                UserList.add(new User(userInput.getId(),userInput.getName(),userInput.getEmail()));
-                userManager.addUser(userInput);
-            }
-            else if (ch ==2) {
+                user.setEmail(stringInput.nextLine());
+                userManager.addUser(user);
+            } else if (ch == 2) {
+                User user = new User();
                 System.out.println("enter Id to be deleted");
-                boolean flag = userManager.deleteUser(userInput.getId());
+                int deleteId = integerInput.nextInt();
+                boolean flag = userManager.deleteUser(deleteId);
 
-                if(flag == true){
-                    System.out.println(UserList);
-                }else {
+                if (flag == true) {
+
+                    System.out.println(user);
+                } else {
                     System.out.println("not found");
                 }
 
-            }
-            else if (ch == 3) {
-                System.out.println("users list");
-                userManager.listUsers();
+            } else if (ch == 3) {
+                System.out.println(userManager.listUsers());
 
-            } else if (ch ==4) {
-                System.out.println("enter user Id to be updated");
-                userManager.updateUser();
+            } else if (ch == 4) {
+
+                User user = new User();
+                System.out.println("enter user id to be updated ");
+                user.setId(integerInput.nextInt());
+                System.out.println("enter user name");
+                user.setName(stringInput.nextLine());
+                System.out.println("enter user email");
+                user.setEmail(stringInput.nextLine());
+                userManager.updateUser(user);
+
+
             } else if (ch == 5) {
                 System.out.println("enter user id to search");
-                boolean flag;
                 int searchId = integerInput.nextInt();
-                flag = userManager.searchUser(searchId);
+                System.out.println(userManager.searchUser(searchId));
 
-                if(flag == true){
-                    System.out.println(ser);
-                }else {
-                    System.out.println("not found");
-                }
-
-
-
-            }else {
-                ch=6;
+            } else {
+                ch = 6;
             }
-        }while(ch!=6);
+        } while (ch != 6);
 
 
     }

@@ -1,36 +1,43 @@
 package models;
+
 import org.example.User;
+
 import java.util.*;
 
 public class InMemoryStorageUserManager implements UserManager {
-    User user=new User(user);
     List<User> userList = new ArrayList<User>();
 
     @Override
-    public ArrayList<User> addUser(User user) {
-        userList.add(new User(user));
+    public List<User> addUser(User user) {
+        userList.add(user);
         return userList;
     }
 
     @Override
-    public void updateUser () {
+    public void updateUser(User user) {
         ListIterator<User> userListIterator = userList.listIterator();
         while (userListIterator.hasNext()) {
             User existingUser = userListIterator.next();
             if (existingUser.getId() == user.getId()) {
-                //userListIterator.set(user);
                 existingUser.setName(user.getName());
+                existingUser.setEmail(user.getEmail());
+            } else {
+                System.out.println("User not found");
             }
+
         }
 
     }
+
     @Override
-    public List<User> listUsers () {
-        return new ArrayList<User>();
+    public List<User> listUsers() {
+        return userList;
     }
+
     @Override
     public boolean deleteUser(int id) {
-        boolean flag=false;
+        User user = searchUser(id);
+        boolean flag = false;
         Iterator<User> userIterator = userList.iterator();
         while (userIterator.hasNext()) {
             User userObject = userIterator.next();
@@ -45,23 +52,12 @@ public class InMemoryStorageUserManager implements UserManager {
 
 
     @Override
-    public boolean searchUsers(int searchId){
-        ArrayList<User> searchlist = new ArrayList<User>();
-        boolean flag = false;
-        Iterator<User> userIterator = userList.iterator();
-        while (userIterator.hasNext()) {
-            User user = userIterator.next();
+    public User searchUser(int searchId) {
+        for (User user : userList) {
             if (user.getId() == searchId) {
-                flag = true;
-                searchlist.add(user);
-                break;
-
-            }
-            else {
-                flag = false;
+                return user;
             }
         }
-
-        return flag;
+        return null;
     }
 }
